@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Observable;
+
 /**
  * 
  * @author Nicolas Neubauer
@@ -7,11 +9,15 @@ package model;
  * Model, das einen Integer-Wert verwalten kann
  *
  */
-public class ZaehlerModel {
+public class ZaehlerModel extends Observable {
 
 	private int wert;
 	private int min;
 	private int max;
+	
+	// falls true: fehler ist aufgetreten, andernfalls false
+	private boolean errInterval;
+	private boolean errFormat;
 	
 	/**
 	 * Legt ein neues Model an.
@@ -24,6 +30,9 @@ public class ZaehlerModel {
 		
 		this.min = min;
 		this.max = max;
+		
+		this.errInterval = false;
+		this.errFormat = false;
 			
 		setWert(wert);
 		
@@ -42,8 +51,33 @@ public class ZaehlerModel {
 	 * @param wert der zu setzende Wert
 	 */
 	
-	public void setWert(int wert) {
-		this.wert = wert;
+	public void setWert(int wert) throws IllegalArgumentException {
+		
+		if(wert >= this.min && wert <= this.max) {
+			this.wert = wert;
+			setChanged();
+			notifyObservers();
+		} 
+		else
+		{
+			errInterval = true;
+			setChanged();
+			notifyObservers();
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	public void setWert(String wert) throws IllegalArgumentException {
+		
+		try {
+			int parsed = Integer.parseInt(wert);
+			setWert(parsed);
+		} catch (NumberFormatException ex) {
+			setChanged();
+			notifyObservers();
+			errFormat = true;
+			throw new IllegalArgumentException();
+		}
 	}
 
 	/**
@@ -59,5 +93,24 @@ public class ZaehlerModel {
 	public int getMax() {
 		return max;
 	}
-	
+	public boolean getInvalidAction() {
+		if(this.errInterval) {
+			this.errInterval = false;
+			return true;
+		} 
+		else 
+		{
+			return false;
+		}
+	}
+	public boolean getInvalidFormat() {
+		if(this.errFormat) {
+			this.errFormat = false;
+			return true;
+		} 
+		else 
+		{
+			return false;
+		}
+	}
 }

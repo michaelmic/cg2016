@@ -6,6 +6,9 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import model.ZaehlerModel;
 import view.ZaehlerView;
 
@@ -45,15 +48,43 @@ public class ZaehlerController {
 			public void actionPerformed(ActionEvent e) {
 
 				// Button
-				if (e.getSource() == view.getUp()) {
-						model.setWert(model.getWert() + 1);
-				}
+				try {
+					if (e.getSource() == view.getUp()) {
+							model.setWert(model.getWert() + 1);
+					}
+					else if (e.getSource() == view.getDown()) {
+							model.setWert(model.getWert() - 1);
+					}
+					else if (e.getSource() == view.getEingabe()) {
+							model.setWert(view.getEingabe().getText());
+					}
+				} catch (IllegalArgumentException ex) {	}
+			}
+		};
+		
+		// Erstelle ChangeListener
+		ChangeListener c = new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				
+				try {
+					if (e.getSource() == view.getSlider()) {
+						model.setWert(view.getSlider().getValue());
+					}
+				} catch (IllegalArgumentException ex) { }
 			}
 		};
 
 		// Hänge die Listener an die View-Componenten
 		view.getUp().addActionListener(a);
-
+		view.getDown().addActionListener(a);
+		view.getEingabe().addActionListener(a);
+		view.getSlider().addChangeListener(c);
+		
+		// die View soll das Model beobachten
+		model.addObserver(view);
+		model.setWert(model.getWert()); // die update() von view wird aufgerufen 
 	}
 
 	/**

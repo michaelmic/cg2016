@@ -2,11 +2,16 @@ package view;
 
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+
+import model.ZaehlerModel;
 
 /**
  * 
@@ -17,7 +22,7 @@ import javax.swing.JTextField;
  */
 
 @SuppressWarnings("serial")
-public class ZaehlerView extends JPanel {
+public class ZaehlerView extends JPanel implements Observer {
 
 	// View-Components
 	private JButton up;
@@ -91,6 +96,25 @@ public class ZaehlerView extends JPanel {
 	 */
 	public JTextField getEingabe() {
 		return eingabe;
+	}
+
+
+	@Override
+	public void update(Observable obs, Object dummy) {
+		ZaehlerModel z = (ZaehlerModel) obs;
+		
+		// test
+		System.out.println(z.getWert());
+		
+		getSlider().setValue( z.getWert() );
+		getResult().setText( Integer.toString(z.getWert()) ); 
+		
+		if(z.getInvalidAction()) {
+			getResult().setText("!! Interval !!");
+		}
+		if(z.getInvalidFormat()) {
+			getResult().setText("!! Format !!");
+		}
 	}
 	
 	
