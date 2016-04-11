@@ -6,10 +6,12 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import model.ZaehlerModel;
 
@@ -30,6 +32,7 @@ public class ZaehlerView extends JPanel implements Observer {
 	private JLabel result;
 	private JSlider slider;
 	private JTextField eingabe;
+	private JComboBox<String> combobox;
 
 	/**
 	 * Legt die View an.
@@ -37,6 +40,13 @@ public class ZaehlerView extends JPanel implements Observer {
 	
 	public ZaehlerView() {
 		super();
+		
+		// Installierte LookAndFeels ermitteln
+		UIManager.LookAndFeelInfo[] availableLookAndFeels = UIManager.getInstalledLookAndFeels();
+		String[] stringRepresentationLookAndFeel = new String[availableLookAndFeels.length];
+		for (int i = 0; i < availableLookAndFeels.length; i++) {
+			stringRepresentationLookAndFeel[i] = availableLookAndFeels[i].getClassName();
+		}
 
 		//eigenes Layout setzen
 		this.setLayout(new GridLayout(0,1));
@@ -47,6 +57,7 @@ public class ZaehlerView extends JPanel implements Observer {
 	    result = new JLabel("", JLabel.CENTER);
 	    slider = new JSlider();
 		eingabe = new JTextField();
+		combobox = new JComboBox<>(stringRepresentationLookAndFeel);
 		
 	    //Schriftart des JLabels
 	    Font font = new Font("SansSerif", Font.BOLD, 30);
@@ -58,6 +69,9 @@ public class ZaehlerView extends JPanel implements Observer {
 		this.add(slider);
 		this.add(down);
 		this.add(eingabe);
+		this.add(combobox);
+		
+		
 	}
 
 	
@@ -97,14 +111,18 @@ public class ZaehlerView extends JPanel implements Observer {
 	public JTextField getEingabe() {
 		return eingabe;
 	}
+	
+	/**
+	 * @return the combobox
+	 */
+	public JComboBox<String> getCombobox() {
+		return combobox;
+	}
 
 
 	@Override
 	public void update(Observable obs, Object dummy) {
 		ZaehlerModel z = (ZaehlerModel) obs;
-		
-		// test
-		System.out.println(z.getWert());
 		
 		getSlider().setValue( z.getWert() );
 		getResult().setText( Integer.toString(z.getWert()) ); 

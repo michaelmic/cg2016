@@ -5,7 +5,12 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -75,12 +80,32 @@ public class ZaehlerController {
 				} catch (IllegalArgumentException ex) { }
 			}
 		};
+		
+		// Erstelle ItemListener
+		ItemListener i = new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if ( e.getSource() == view.getCombobox() ) {
+				System.out.println("bin in controller z.89");
+					String selected = (String) view.getCombobox().getSelectedItem();
+					try {
+						UIManager.setLookAndFeel(selected);
+						SwingUtilities.updateComponentTreeUI(view);
+//						view.pack();
+					} catch (Exception ex) {
+						System.out.println("Exception!!");
+					}
+				}
+			}
+		};
 
 		// Hänge die Listener an die View-Componenten
 		view.getUp().addActionListener(a);
 		view.getDown().addActionListener(a);
 		view.getEingabe().addActionListener(a);
 		view.getSlider().addChangeListener(c);
+		view.getCombobox().addItemListener(i);
 		
 		// die View soll das Model beobachten
 		model.addObserver(view);
