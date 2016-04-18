@@ -10,12 +10,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.event.MouseInputListener;
 
-import controller.listener.PointListener;
 import controller.listener.LineListener;
+import controller.listener.PointListener;
 import controller.listener.RectangleListener;
-
 import model.drawables.DrawableObject;
-
 import view.DrawingPanelView;
 
 /**
@@ -41,8 +39,7 @@ public class DrawingPanelViewController implements DrawableObjectProcessing {
 	private LineListener lineListener;
 	private LineListener antiAliasedLineListener;
 	private RectangleListener rectangleListener;
-	
-	
+
 	/**
 	 * Der Konstruktor initialisiert die View und legt die Listener an.
 	 */
@@ -52,21 +49,18 @@ public class DrawingPanelViewController implements DrawableObjectProcessing {
 		drawingPanelView = new DrawingPanelView(640, 480, drawableObjectsModel);
 
 		// welche Objekte sollen gezeichnet werden können?
-		String[] objectArray = { 
-			"Punkt", "Linie", "Anti-Aliased Linie", "Rechteck", "Polygon"
-		};
-		drawingPanelView.getComboBox().setModel(
-				new DefaultComboBoxModel<String>(objectArray));
+		String[] objectArray = { "Punkt", "Linie", "Anti-Aliased Linie", "Rechteck", "Polygon" };
+		drawingPanelView.getComboBox().setModel(new DefaultComboBoxModel<String>(objectArray));
 
 		// Listener für die einzelnen Grafischen Objekte anlegen.
 		pointListener = new PointListener(this);
 		lineListener = new LineListener(this, false);
 		antiAliasedLineListener = new LineListener(this, true);
 		rectangleListener = new RectangleListener(this);
-		
+
 		// TODO: (A4) PolygonListener erstellen (und die Klasse in
-		//        einer eigenen Datei definieren)
-		
+		// einer eigenen Datei definieren)
+
 		// ChangeListener um festzustellen, was gezeichnet werden soll
 		ActionListener c = new ActionListener() {
 			/**
@@ -85,8 +79,8 @@ public class DrawingPanelViewController implements DrawableObjectProcessing {
 					changeMouseInputListenerTo(antiAliasedLineListener);
 				} else if (cb.getSelectedItem().equals("Rechteck")) {
 					changeMouseInputListenerTo(rectangleListener);
-				} 
-				// TODO: (A4) PolygonListener einhängen	
+				}
+				// TODO: (A4) PolygonListener einhängen
 			}
 
 			/**
@@ -97,30 +91,24 @@ public class DrawingPanelViewController implements DrawableObjectProcessing {
 			 *            der zu setzende Listener, alle anderen werden
 			 *            ausgehängt
 			 */
-			private void changeMouseInputListenerTo(
-					MouseInputListener newListener) {
+			private void changeMouseInputListenerTo(MouseInputListener newListener) {
 
 				// InputListeners
-				MouseListener[] currentInputListeners = drawingPanelView
-						.getDrawingPanel().getMouseListeners();
+				MouseListener[] currentInputListeners = drawingPanelView.getDrawingPanel().getMouseListeners();
 
 				for (MouseListener curListener : currentInputListeners) {
-					drawingPanelView.getDrawingPanel().removeMouseListener(
-							curListener);
+					drawingPanelView.getDrawingPanel().removeMouseListener(curListener);
 				}
 
 				// MotionListeners
-				MouseMotionListener[] currentMotionListeners = drawingPanelView
-						.getDrawingPanel().getMouseMotionListeners();
+				MouseMotionListener[] currentMotionListeners = drawingPanelView.getDrawingPanel()
+						.getMouseMotionListeners();
 				for (MouseMotionListener curListener : currentMotionListeners) {
-					drawingPanelView.getDrawingPanel()
-							.removeMouseMotionListener(curListener);
+					drawingPanelView.getDrawingPanel().removeMouseMotionListener(curListener);
 				}
 
-				drawingPanelView.getDrawingPanel()
-						.addMouseListener(newListener);
-				drawingPanelView.getDrawingPanel().addMouseMotionListener(
-						newListener);
+				drawingPanelView.getDrawingPanel().addMouseListener(newListener);
+				drawingPanelView.getDrawingPanel().addMouseMotionListener(newListener);
 			}
 
 		};
@@ -130,7 +118,7 @@ public class DrawingPanelViewController implements DrawableObjectProcessing {
 
 		// Event einmal auslösen, damit der korrekte Listener angehängt wird
 		drawingPanelView.getComboBox().setSelectedItem("Punkt");
-		
+
 		// Event-Listener für Clear-Button
 		ActionListener a = new ActionListener() {
 			@Override
@@ -140,7 +128,7 @@ public class DrawingPanelViewController implements DrawableObjectProcessing {
 				drawingPanelView.getDrawingPanel().repaint();
 			}
 		};
-		
+
 		// Anhängen des Listeners
 		drawingPanelView.getButton().addActionListener(a);
 	}
