@@ -58,7 +58,7 @@ public class AntiAliasedLine extends DrawableObject {
 
 		if (Math.abs(dy) < Math.abs(dx)) {
 			float error = -Math.abs(dx); // Fehler bestimmen
-			int delta = 2 * Math.abs(dx); // Delta bestimmen
+			int delta = 2 * Math.abs(dy); // Delta bestimmen
 			float schritt = 2 * error; // Schwelle bestimmen
 			float fehler = Math.abs(error) / 100f;
 			if (fehler > 1) {
@@ -70,11 +70,11 @@ public class AntiAliasedLine extends DrawableObject {
 			float brightness = 1 - fehler;
 			while (x != e.x) {
 				setPixel(x, y, brightness, g);// setze Pixel
-				x += inc_x;
-				error = error + delta;
-				if (error > 0) {
-					y += inc_y;
-					error += schritt;
+				x += inc_x; // naechste x-Koordinate
+				error = error + delta; // Fehler aktualisieren
+				if (error > 0) { // neue Zeile erreicht?
+					y += inc_y; // y-Koord. aktualisieren
+					error += schritt; // Fehler aktualisieren
 				}
 				if (error > 0.5) {
 					setPixel(x, y - 1, fehler, g);// setze Error Pixel
@@ -94,7 +94,6 @@ public class AntiAliasedLine extends DrawableObject {
 			float brightness = 1 - fehler;
 			while (y != e.y) { // fuer jede y-Koordinate
 				setPixel(x, y, brightness, g);// setze Pixel
-
 				y += inc_y; // naechste y-Koordinate
 				error = error + delta; // Fehler aktualisieren
 				if (error > 0) { // neue Zeile erreicht?
@@ -107,7 +106,7 @@ public class AntiAliasedLine extends DrawableObject {
 			}
 
 		}
-		setPixel(e.x, e.y, g);
+		setPixel(e.x, e.y, g); //Endpixel zeichnen
 		g.setPaintMode();
 	}
 }

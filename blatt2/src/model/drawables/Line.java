@@ -58,13 +58,13 @@ public class Line extends DrawableObject {
 			int error = -Math.abs(dx); // Fehler bestimmen
 			int delta = 2 * Math.abs(dy); // Delta bestimmen
 			int schritt = 2 * error; // Schwelle bestimmen
-			while (x != e.x) {
-				setPixel(x, y, g);
-				x += inc_x;
-				error = error + delta;
-				if (error > 0) {
-					y += inc_y;
-					error += schritt;
+			while (x != e.x) {// fuer jede x-Koordinate
+				setPixel(x, y, g); // setze Pixel
+				x += inc_x;// naechste x-Koordinate
+				error = error + delta; // Fehler aktualisieren
+				if (error > 0) {  // neue Zeile erreicht?
+					y += inc_y; // y-Koord. aktualisieren
+					error += schritt; // Fehler aktualisieren
 				}
 			}
 		} else { // steil nach oben oder unten
@@ -81,7 +81,7 @@ public class Line extends DrawableObject {
 				}
 			}
 		}
-		setPixel(e.x, e.y, g);
+		setPixel(e.x, e.y, g);  //Endpixel zeichnen
 		g.setPaintMode();
 	}
 }
