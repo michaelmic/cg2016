@@ -35,16 +35,19 @@ public class Rectangle extends DrawableObject {
 	 *            der grafische Kontext in den das Rechteck gezeichnet wird
 	 */
 	public void paint(Graphics g) {
-		g.setXORMode(Color.MAGENTA);
+		g.setXORMode(Color.CYAN);
 		// TODO: (A1) Rechteck zeichnen
 		// x-------x
 		// |.......|
 		// |.......|
 		// x-------x
-		g.drawLine(a.x, a.y, e.x, a.y);
-		g.drawLine(a.x, e.y, e.x, e.y);
-		g.drawLine(a.x, a.y, a.x, e.y);
-		g.drawLine(e.x, a.y, e.x, e.y);
+		Line l1 = new Line(new Point(a.x, a.y), new Point(e.x, a.y));
+		Line l2 = new Line(new Point(a.x, e.y), new Point(e.x, e.y));
+		Line l3 = new Line(new Point(a.x, a.y), new Point(a.x, e.y));
+		Line l4 = new Line(new Point(e.x, a.y), new Point(e.x, e.y));
+		
 		g.setPaintMode();
+		
+		l1.paint(g); l2.paint(g); l3.paint(g); l4.paint(g);
 	}
 }

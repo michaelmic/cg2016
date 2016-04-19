@@ -3,12 +3,17 @@ package model.drawables;
 import java.awt.Graphics;
 
 public class DashedPolygon extends Polygon{
+	
 
-	public DashedPolygon() {
-
+	public DashedPolygon(Point... a) {
+		super(a);
 		//Konstruktor
+		this.finished = false;
 	}	
-	protected void setPixel(int x, int y, Graphics g) {
-		
+
+	@Override
+	public void addPoint(Point p) {
+		this.addLine(new DashedLine(last, p));
+		last = p;
 	}
 }

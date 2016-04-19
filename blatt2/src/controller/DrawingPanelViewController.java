@@ -12,8 +12,11 @@ import javax.swing.event.MouseInputListener;
 
 import controller.listener.LineListener;
 import controller.listener.PointListener;
+import controller.listener.PolygonListener;
 import controller.listener.RectangleListener;
+import model.drawables.DashedPolygon;
 import model.drawables.DrawableObject;
+import model.drawables.Point;
 import view.DrawingPanelView;
 
 /**
@@ -39,6 +42,7 @@ public class DrawingPanelViewController implements DrawableObjectProcessing {
 	private LineListener lineListener;
 	private LineListener antiAliasedLineListener;
 	private RectangleListener rectangleListener;
+	private PolygonListener polygonListener;
 
 	/**
 	 * Der Konstruktor initialisiert die View und legt die Listener an.
@@ -57,9 +61,12 @@ public class DrawingPanelViewController implements DrawableObjectProcessing {
 		lineListener = new LineListener(this, false);
 		antiAliasedLineListener = new LineListener(this, true);
 		rectangleListener = new RectangleListener(this);
-
-		// TODO: (A4) PolygonListener erstellen (und die Klasse in
-		// einer eigenen Datei definieren)
+		polygonListener = new PolygonListener(this);
+		
+//		//TODO löschen
+//		DashedPolygon p = new DashedPolygon(new Point(5, 5), new Point(522, 124), new Point(200, 100));
+//		p.addPoint(new Point(640,  480));
+//		this.processDrawableObject(p);
 
 		// ChangeListener um festzustellen, was gezeichnet werden soll
 		ActionListener c = new ActionListener() {
@@ -79,8 +86,9 @@ public class DrawingPanelViewController implements DrawableObjectProcessing {
 					changeMouseInputListenerTo(antiAliasedLineListener);
 				} else if (cb.getSelectedItem().equals("Rechteck")) {
 					changeMouseInputListenerTo(rectangleListener);
+				} else if (cb.getSelectedItem().equals("Polygon")) {
+					changeMouseInputListenerTo(polygonListener);
 				}
-				// TODO: (A4) PolygonListener einhängen
 			}
 
 			/**
