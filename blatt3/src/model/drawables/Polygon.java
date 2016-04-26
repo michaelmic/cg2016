@@ -77,9 +77,22 @@ public class Polygon extends DrawableObject {
 	 *            der zu prüfende Punkt
 	 * @return true, wenn p innerhalb des Polygons liegt
 	 */
-	public boolean isNear(Point p) {
-		// TODO: (A3) Implementieren
-		return true;
+	public boolean isNear(Point p) {       
+	        int x1 = points.get(points.size()-1).x; 
+	        int y1 = points.get(points.size()-1).y;
+	        int x2 = points.get(0).x;
+	        int y2 = points.get(0).y;
+	        boolean inside = false;
+	        boolean startUeber = y1 >= p.y ? true : false;
+	        for (int i=1; i<points.size(); i++) {
+	        boolean endUeber = y2 >= p.y ? true : false;
+	        if ((startUeber != endUeber &&
+	        (double)(p.y*(x2-x1)- x2*y1 + x1*y2)/(y2-y1)>=p.x))
+	        inside = !inside; 
+	        startUeber = endUeber;
+	        y1=y2; x1=x2; x2=points.get(i).x; y2=points.get(i).y;
+	        } 
+	        return inside;
 	}
 
 	/**
@@ -90,6 +103,7 @@ public class Polygon extends DrawableObject {
 	 *            die Transformationsmatrix
 	 */
 	public void transformBy(Matrix m) {
+		
 		// TODO: (A3) Implementieren
 	}
 }
