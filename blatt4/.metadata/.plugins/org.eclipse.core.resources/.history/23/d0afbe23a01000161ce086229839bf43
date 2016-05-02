@@ -1,0 +1,101 @@
+package model;
+
+import java.awt.Color;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+public class RgbCube {
+	private List<ColorPoint> colors;
+	
+	public RgbCube() {
+		colors = new LinkedList<>();
+	}
+	
+	public void addColor(Color c) {
+		boolean found = false;
+		for(ColorPoint cp : this.colors) {
+			if (cp.same(c)) {
+				cp.add();
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			colors.add(new ColorPoint(c));
+		}
+	}
+	
+	public void addColorPoint(ColorPoint c) {
+		colors.add(c);
+	}
+	
+	public void sort() {
+		ColorPoint curr = colors.get(0);
+		int red_min = curr.getRed();
+		int red_max = red_min;
+		int green_min = curr.getGreen();
+		int green_max = red_min;
+		int blue_min = curr.getBlue();
+		int blue_max = blue_min;
+		
+		for(int i=1; i<colors.size(); i++) {
+			curr = colors.get(i);
+			red_min = Math.min(red_min, curr.getRed());
+			red_max = Math.max(red_max, curr.getRed());
+			green_min = Math.min(green_min, curr.getGreen());
+			green_max = Math.max(green_max, curr.getGreen());
+			blue_min = Math.min(blue_min, curr.getBlue());
+			blue_max = Math.max(blue_max, curr.getBlue());
+		}
+
+		int red_range = red_max - red_min;
+		int green_range = green_max - green_min;
+		int blue_range = blue_max - blue_min;
+		
+		int max = Math.max(red_range, Math.max(green_range, blue_range));
+		
+		int key;
+		if(red_range == max) {
+			key = ColorPoint.RED;
+		} else if(green_range == max) {
+			key = ColorPoint.GREEN;
+		} else {
+			key = ColorPoint.BLUE;
+		} 
+		
+		for(ColorPoint cp : this.colors) {
+			cp.orderBy(key);
+		}
+		
+		this.colors.sort(null);
+	}
+	
+	public void cut(RgbCube left, RgbCube right) {
+		left = new RgbCube();
+		right = new RgbCube();
+		
+		int mid = colors.size() / 2;
+		
+		for (int i = 0; i <= mid; i++) {
+			left.addColorPoint(colors.get(i));
+		}
+		for (int i = mid+1; i < colors.size(); i++) {
+			right.addColorPoint(colors.get(i));
+		}
+	}
+	
+	public Color getAverage() {
+		int red=0, green=0, blue=0;
+		
+		for( ColorPoint cp : colors ) {
+			red += cp.getRed();
+			green += cp.getGreen();
+			blue += cp.getBlue();
+		}
+		
+		red /= colors.size();
+		green /= colors.size();
+		blue /= colors.size();
+	}
+}

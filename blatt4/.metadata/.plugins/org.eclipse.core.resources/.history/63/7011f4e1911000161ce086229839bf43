@@ -1,0 +1,23 @@
+package snippet;
+
+public class Snippet {
+	public static void main(String[] args) {
+		if(min == max) {
+			hue = 0;
+		} else if(max == red) { // rot
+		    hue = (int)( 60 * ((green - blue)/(max-min)) );
+		    
+		} else if(max == blue) { // blau
+		    hue = (int)( 60 * (4 + (red - green)/(max-min)) );
+		    
+		} else if(max == green) { // gruen
+		    hue = (int)( 60 * (2 +(blue - red)/(max/min)) );
+		    
+		} else {
+		    System.out.println(
+		        "Fehler bei der Bestimmung der Dominanten!");
+		    return new HsvColor(0,0,0);
+		}
+	}
+}
+

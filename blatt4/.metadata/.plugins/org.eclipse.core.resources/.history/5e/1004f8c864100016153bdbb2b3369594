@@ -1,0 +1,60 @@
+package model;
+
+import java.awt.Color;
+
+public class HsvColor {
+	public int h;
+	public double s, v;
+	
+	public HsvColor(int h, double s, double v) {
+		this.h = h;
+		this.s = s;
+		this.v = v;
+	}
+	
+	public static HsvColor fromColor(Color rgb) {
+		// TODO: (A1) RGB zu HSV konvertieren
+		int r, g, b;
+		r = rgb.getRed();
+		g = rgb.getGreen();
+		b = rgb.getBlue();
+		
+		double value = (double) Math.max(r, Math.max(g, b)) / (double) 255;
+		
+		double min = (double) Math.min(r, Math.min(g, b)) / (double) 255;
+		double s = (value-min) / value;
+		
+		double red = (double) r / (double) 255;
+		int hue = (int) ( (1 + (value - red)) / (value-min) * 60 + 0.5);
+		System.out.println("Hue: " + hue + " (red: " + red + ", value: " + value + ", min: " + min + ")");
+		
+		// ermittle dominante Farbe
+		boolean cond1 = r > g;
+		boolean cond2 = r > b;
+		boolean cond3 = g > b;
+		byte dom;
+		dom  = !cond1 && cond3 ?(byte) 2 : (byte) 0;
+		dom += cond1 && !cond2 || !cond1 && !cond3 
+                        ? (byte) 1 : (byte) 0;
+                if(dom == 0) { // rot: 0b00000000
+                    System.out.println("Dominante ist Rot!");
+                } else if(dom == 1) { // blau: 0b00000001
+                    System.out.println("Dominante ist Blau!");
+                    
+                } else if(dom == 2) { // gruen: 0b00000010
+                    System.out.println("Dominante ist Gruen!");
+                    
+                } else {
+                    System.out.println(
+                        "Fehler bei der Bestimmung der Dominanten!");
+                }
+		
+		return new HsvColor(0, 0, value); // dummy object
+	}
+	
+	public Color toColor() {
+		// TODO: (A1) HSV zu RGB konvertieren
+		return Color.BLACK;	// dummy object
+	}
+
+}

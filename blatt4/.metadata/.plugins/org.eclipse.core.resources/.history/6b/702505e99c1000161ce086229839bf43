@@ -1,0 +1,23 @@
+package model;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+
+public class RgbCube {
+	private List<ColorPoint> colors;
+	
+	public RgbCube() {
+		colors = new LinkedList<>();
+	}
+	
+	public addColor(Color c) {
+		boolean found = false;
+		for(ColorPoint cp : this.colors) {
+			if (cp.same(c)) {
+				found = true;
+				break;
+			}
+		}
+	}
+}
