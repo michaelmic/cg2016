@@ -27,6 +27,7 @@ public class MoebiusStrip extends DrawableObject {
 		}
 		
 
+		// Hier soll das letzte Segment geschlossen werden:
 		for(r=-1; r+rStep<=1; r+=rStep) {
 			p1 = func(r,       alpha);
 			p2 = func(r,       0);
@@ -43,7 +44,6 @@ public class MoebiusStrip extends DrawableObject {
 		
 	}
 	
-	// Hier soll das letzte Segment geschlossen werden:
 	private Vertex func(double r, double alpha) {
 		return new Vertex(
 				Math.cos(alpha) * ( 1 + r/2 * Math.cos(alpha/2) ),
