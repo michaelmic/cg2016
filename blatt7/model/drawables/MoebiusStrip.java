@@ -24,15 +24,17 @@ public class MoebiusStrip extends DrawableObject {
 				f.addNormal(p4);
 				faces.add(f);
 			}
-		}
-		
-
+		} 
+				
+		// alpha zurücksetzen
+		alpha -= alphaStep;
 		// Hier soll das letzte Segment geschlossen werden:
+		
 		for(r=-1; r+rStep<=1; r+=rStep) {
-			p1 = func(r,       alpha);
+			p1 = func(-r,       alpha);
 			p2 = func(r,       0);
 			p3 = func(r+rStep, 0);
-			p4 = func(r+rStep, alpha);
+			p4 = func(-(r+rStep), alpha);
 			
 			f = new Face(p1, p2, p3, p4);
 			f.addNormal(p1);

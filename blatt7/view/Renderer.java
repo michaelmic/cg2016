@@ -105,8 +105,7 @@ public class Renderer {
 			if(e < 0) counter++;
 		}
 		
-		return true;
-//		return counter == 0;
+		return counter == 0;
 	}
 
 	/**

@@ -71,7 +71,7 @@ public class DrawingPanelViewController {
 
 		// Einen Cube in die Szene einfügen
 		Cube cube = new Cube();
-		//drawableObjects.add(cube);
+		drawableObjects.add(cube);
 
 		// TODO: (A2) add sphere
 		Matrix move_right = new Matrix(new double[][] {
@@ -82,7 +82,7 @@ public class DrawingPanelViewController {
 		});
 		Sphere sphere = new Sphere(64);
 		sphere.applyTransform(move_right);
-		//drawableObjects.add(sphere);
+		drawableObjects.add(sphere);
 		// TODO: (A3) add moebius strip
 		Matrix move_left = new Matrix(new double[][] {
 			{1, 0, 0, -3},
@@ -91,7 +91,7 @@ public class DrawingPanelViewController {
 			{0, 0, 0,  1},
 		});
 		MoebiusStrip moebius = new MoebiusStrip(.05, .1);;
-		//moebius.applyTransform(move_left);
+		moebius.applyTransform(move_left);
 		drawableObjects.add(moebius);
 
 		// Listener anhängen
